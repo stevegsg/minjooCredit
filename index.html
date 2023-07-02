@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>더불어민주당</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
@@ -37,27 +37,88 @@
     <!--플레이어 끝 ㅇㅇ-->
     <div class="main">
       <span class="main-title">민주 크레딧 테스트</span>
-      <button class="main-start">시작하기</button>
-    </div>
-    <script>
-      fetch("moonjaelist.json")
-        .then(function (response) {
-          return response.json();
-        })
-        .then(function (questions) {
-          // 문제 데이터를 활용하여 CBT 시스템을 구현합니다.
-          // 예시: 문제 표시
-          questions.forEach(function (moonjae) {
-            console.log("질문: " + moonjae.moonjae);
-            console.log("선택지: " + moonjae.option.join(", "));
+      <button id="start-button" class="main-start">시작하기</button>
+      <!-- 문제와 선택지를 담을 컨테이너 -->
+      <div id="question-container" style="display: none">
+        <div id="question-text"></div>
+        <div id="options-container"></div>
+      </div>
+      <!-- 문제 데이터를 담을 JavaScript 변수 -->
+      <script>
+        var questionsData;
+        var currentQuestionIndex = 0;
+
+        fetch("https://stevegsg.github.io/minjooCredit/moonjaelist.json")
+          .then(function (response) {
+            return response.json();
+          })
+          .then(function (questions) {
+            questionsData = questions;
+          })
+          .catch(function (error) {
+            console.error(
+              "문제 데이터를 불러오는 중 오류가 발생했습니다:",
+              error
+            );
           });
-        })
-        .catch(function (error) {
-          console.error(
-            "문제 데이터를 불러오는 중 오류가 발생했습니다:",
-            error
-          );
-        });
-    </script>
+
+        document
+          .getElementById("start-button")
+          .addEventListener("click", function () {
+            document.getElementById("start-button").style.display = "none";
+            document.getElementById("question-container").style.display =
+              "block";
+            displayQuestion(currentQuestionIndex);
+          });
+
+        function displayQuestion(index) {
+          var question = questionsData[index];
+          var questionTextElement = document.getElementById("question-text");
+          var optionsContainer = document.getElementById("options-container");
+
+          questionTextElement.textContent = question.moonjae;
+          optionsContainer.innerHTML = "";
+
+          question.option.forEach(function (option, optionIndex) {
+            var optionButton = document.createElement("button");
+            optionButton.textContent = option;
+            optionButton.addEventListener("click", function () {
+              var selectedOption = optionIndex + 1;
+              if (selectedOption == question.awnser) {
+                // 문제를 맞춘 경우
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questionsData.length) {
+                  displayQuestion(currentQuestionIndex);
+                } else {
+                  // 모든 문제를 푼 경우
+                  playAudio("moonya.mp3");
+                  document.getElementById("question-container").style.display =
+                    "none";
+                  document.getElementById("zzit-image").style.display = "none";
+                }
+              } else {
+                // 문제를 틀린 경우
+                stopBackgroundMusic();
+                document.getElementById("question-container").style.display =
+                  "none";
+                document.getElementById("zzit-image").style.display = "block";
+              }
+            });
+            optionsContainer.appendChild(optionButton);
+          });
+        }
+
+        function playAudio(filename) {
+          var audio = new Audio(filename);
+          audio.play();
+        }
+
+        function stopBackgroundMusic() {
+          var player = document.getElementById("player");
+          player.pause();
+        }
+      </script>
+      <img src="ZZIT.png" alt="ZZIT" id="zzit-image" style="display: none" />
+    </div>
   </body>
 </html>
