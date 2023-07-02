@@ -29,8 +29,39 @@ html {
   font-family: GyeonggiTitleM;
   font-size: 52.3px;
   color: #00a0e2;
+  margin-bottom: 50px;
+  text-align: center;
 }
 .main-start {
   font-family: GyeonggiTitleM;
   font-size: 40px;
+}
+/*문재*/
+#question-text {
+  font-family: GyeonggiTitleM;
+  font-size: 36px;
+  color: #00a0e2;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+#options-container {
+  display: flex;
+  flex-direction: column;
+}
+
+#options-container button {
+  font-size: 16px;
+  margin-bottom: 10px;
+  padding: 5px 10px;
+  background-color: #f1f1f1;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#zzit-image {
+  display: none;
+  max-width: 100%;
+  height: auto;
 }
