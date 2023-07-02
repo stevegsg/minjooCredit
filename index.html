@@ -21,12 +21,6 @@
       <div>
         <a href="https://www.youtube.com/watch?v=Q8hGIQQdXjo">배경음악</a><br />
         <button
-          onclick="document.getElementById('player').play()"
-          class="audio-control-button"
-        >
-          음악켜기
-        </button>
-        <button
           onclick="document.getElementById('player').pause()"
           class="audio-control-button"
         >
@@ -37,13 +31,19 @@
     <!--플레이어 끝 ㅇㅇ-->
     <div class="main">
       <span class="main-title">민주 크레딧 테스트</span>
-      <button id="start-button" class="main-start">시작하기</button>
-      <!-- 문제와 선택지를 담을 컨테이너 -->
+      <button
+        id="start-button"
+        class="main-start"
+        onclick="document.getElementById('player').play()"
+        class="audio-control-button"
+      >
+        시작하기
+      </button>
+      <img src="ya.png" alt="YA" id="ya-image" style="display: none" />
       <div id="question-container" style="display: none">
         <div id="question-text"></div>
         <div id="options-container"></div>
       </div>
-      <!-- 문제 데이터를 담을 JavaScript 변수 -->
       <script>
         var questionsData;
         var currentQuestionIndex = 0;
@@ -76,7 +76,7 @@
           var questionTextElement = document.getElementById("question-text");
           var optionsContainer = document.getElementById("options-container");
 
-          questionTextElement.textContent = question.moonjae;
+          questionTextElement.textContent = "Q. " + question.moonjae;
           optionsContainer.innerHTML = "";
 
           question.option.forEach(function (option, optionIndex) {
@@ -89,12 +89,28 @@
                 currentQuestionIndex++;
                 if (currentQuestionIndex < questionsData.length) {
                   displayQuestion(currentQuestionIndex);
+                  playAudio("moonya.mp3");
                 } else {
                   // 모든 문제를 푼 경우
-                  playAudio("moonya.mp3");
+                  playAudio("rohya.mp3");
                   document.getElementById("question-container").style.display =
                     "none";
+
                   document.getElementById("zzit-image").style.display = "none";
+                  stopBackgroundMusic();
+                }
+                // ya.png 이미지 표시
+                var yaImage = document.getElementById("ya-image");
+                yaImage.style.display = "block";
+                document.getElementById("question-container").style.display =
+                  "none";
+                if (currentQuestionIndex < questionsData.length) {
+                  setTimeout(function () {
+                    yaImage.style.display = "none";
+                    document.getElementById(
+                      "question-container"
+                    ).style.display = "block";
+                  }, 2000);
                 }
               } else {
                 // 문제를 틀린 경우
@@ -118,7 +134,7 @@
           player.pause();
         }
       </script>
-      <img src="ZZIT.png" alt="ZZIT" id="zzit-image" style="display: none" />
+      <img src="ZZIT.png" alt="ZZIT" id="zzit-image" />
     </div>
   </body>
 </html>
