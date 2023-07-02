@@ -1,0 +1,36 @@
+@font-face {
+  /*경천체*/
+  font-family: "GyeonggiTitleM";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/GyeonggiTitleM.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+html {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+/*오디오플레이어*/
+.audioplayer {
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+/*메인*/
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+}
+.main-title {
+  display: block;
+  font-family: GyeonggiTitleM;
+  font-size: 52.3px;
+  color: #00a0e2;
+}
+.main-start {
+  font-family: GyeonggiTitleM;
+  font-size: 40px;
+}
