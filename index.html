@@ -30,7 +30,14 @@
     </div>
     <!--플레이어 끝 ㅇㅇ-->
     <div class="main">
-      <span class="main-title">민주 크레딧 테스트</span>
+      <span class="main-title"
+        >민주 크레딧 테스트
+        <br />
+      </span>
+      <span class="sub-title" id="sub-title">
+        주의 : 공포 요소 있음(진짜로)
+      </span>
+
       <button
         id="start-button"
         class="main-start"
@@ -44,6 +51,7 @@
         <div id="question-text"></div>
         <div id="options-container"></div>
       </div>
+
       <script>
         var questionsData;
         var currentQuestionIndex = 0;
@@ -66,6 +74,7 @@
           .getElementById("start-button")
           .addEventListener("click", function () {
             document.getElementById("start-button").style.display = "none";
+            document.getElementById("sub-title").style.display = "none";
             document.getElementById("question-container").style.display =
               "block";
             displayQuestion(currentQuestionIndex);
@@ -88,15 +97,13 @@
                 // 문제를 맞춘 경우
                 currentQuestionIndex++;
                 if (currentQuestionIndex < questionsData.length) {
-                  displayQuestion(currentQuestionIndex);
-                  playAudio("moonya.mp3");
+                  displayQuestion(currentQuestionIndex); //다음문재
+                  playAudio("moonya.mp3"); //야기분좋다 재생
                 } else {
                   // 모든 문제를 푼 경우
-                  playAudio("rohya.mp3");
-                  document.getElementById("question-container").style.display =
+                  playAudio("rohya.mp3"); //야 기분좋다 재생
+                  document.getElementById("question-container").style.display = //문제 숨기기
                     "none";
-
-                  document.getElementById("zzit-image").style.display = "none";
                   stopBackgroundMusic();
                 }
                 // ya.png 이미지 표시
@@ -115,26 +122,48 @@
               } else {
                 // 문제를 틀린 경우
                 stopBackgroundMusic();
-                document.getElementById("question-container").style.display =
+                document.getElementsByClassName(
+                  "audioplayer"
+                )[0].style.display = "none";
+                document.getElementsByClassName("main")[0].style.display =
                   "none";
-                document.getElementById("zzit-image").style.display = "block";
+                document.body.style.backgroundColor = "black";
+
+                // 검은색 박스 연출
+                var imageContainer = document.getElementById("image-container");
+                var image = document.getElementById("image");
+                image.src = "ZZIT1.png";
+                image.style.opacity = 0;
+
+                imageContainer.style.display = "block";
+                setTimeout(function () {
+                  image.style.opacity = 1;
+                }, 1000);
+                setTimeout(function () {
+                  image.src = "ZZIT2.png";
+                }, 3000);
               }
             });
             optionsContainer.appendChild(optionButton);
           });
         }
-
+        //야기분좋다 재생함수
         function playAudio(filename) {
           var audio = new Audio(filename);
           audio.play();
         }
-
+        //음악정지함수
         function stopBackgroundMusic() {
           var player = document.getElementById("player");
           player.pause();
         }
       </script>
-      <img src="ZZIT.png" alt="ZZIT" id="zzit-image" />
+    </div>
+    <div id="canvas-container">
+      <canvas id="canvas"></canvas>
+    </div>
+    <div id="image-container">
+      <img src="" alt="ZZIT1" id="image" />
     </div>
   </body>
 </html>
